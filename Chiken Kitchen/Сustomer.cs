@@ -37,6 +37,7 @@ namespace Chiken_Kitchen
                 if (_Order.Name == ingredient.Name)
                 {
                     Order = ingredient;
+                    Order.Name = ingredient.Name;
                     Order.Count = OrderCount;
                 }
             }
@@ -59,6 +60,17 @@ namespace Chiken_Kitchen
                 GiveFood(allIngredients);
             }
         }
+        public static void Service(List<Ingredient> allIngredients, List<Customer> customers, string _Name)
+        {
+            foreach(Customer customer in customers)
+            {
+                if(customer.Name == _Name)
+                {
+                    customer.Service(allIngredients);
+                    break;
+                }
+            }
+        }
         public void GiveFood(List<Ingredient> allIngredients)
         {
             foreach (Ingredient ingredient in allIngredients)
@@ -78,7 +90,7 @@ namespace Chiken_Kitchen
             Console.WriteLine("Order doesnt exist in Ingedient List");
         }
 
-        public static Customer MeetCustomer(List<Ingredient> allIngredients, List<Customer> customers, string _Name)
+        public static Customer Meet(List<Ingredient> allIngredients, List<Customer> customers, string _Name)
         {
             Customer customer = new Customer(_Name);
             foreach (Customer customerTemp in customers)
@@ -111,10 +123,18 @@ namespace Chiken_Kitchen
             customer.Order.Count = orderCount;
             return customer;
         }
-        public static Customer MeetNewCustomer(List<Ingredient> allIngredients, List<Customer> customers)
+        public static Customer MeetNewbie(List<Ingredient> allIngredients, List<Customer> customers)
         {
             Console.WriteLine("Welcome to Chucken Kitchen, what is our name?");
             string _Name = Console.ReadLine();
+            foreach(Customer customerTemp in customers)
+            {
+                if (customerTemp.Name == _Name)
+                {
+                    Meet(allIngredients, customers, _Name);
+                    return customerTemp;
+                }
+            }
             Console.WriteLine("Do you have any allergies? please use ',' between allergic food");
             string[] allergicFoodName = Console.ReadLine().Split(", ");
             Customer customer = new Customer(_Name);
@@ -122,7 +142,7 @@ namespace Chiken_Kitchen
             {
                 customer.Allergies.Add(new Ingredient(ingredientName));
             }
-            MeetCustomer(allIngredients, customers, customer.Name);
+            Meet(allIngredients, customers, customer.Name);
             return customer;
         }
     }

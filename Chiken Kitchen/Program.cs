@@ -12,23 +12,32 @@ namespace Chiken_Kitchen
             FillLists.FillFoodRecipe(allIngredients);
             List<Customer> customers = new List<Customer>();
             FillLists.FillCustomers(customers);
-            Customer.MeetCustomer(allIngredients, customers, "Julie Mirage");
-            Customer.MeetCustomer(allIngredients, customers, "Julie Mirage");
-            Customer.MeetCustomer(allIngredients, customers, "Elon Carousel");
-            Customer.MeetCustomer(allIngredients, customers, "Bernard Unfortunate");
-            /*foreach(Customer customer in customers)
+
+            Customer.Meet(allIngredients, customers, "Julie Mirage");
+            Customer.Service(allIngredients, customers, "Julie Mirage");
+            Customer.Meet(allIngredients, customers, "Julie Mirage");
+            Customer.Service(allIngredients, customers, "Julie Mirage");
+            Customer.Meet(allIngredients, customers, "Elon Carousel");
+            Customer.Service(allIngredients, customers, "Elon Carousel");
+            Customer.Meet(allIngredients, customers, "Bernard Unfortunate");
+            Customer.Service(allIngredients, customers, "Bernard Unfortunate");
+
+            /*while (2+2!=5)
             {
-                if (customer.Name == "Julie Mirage"|| customer.Name == "Elon Carousel")
+                Console.WriteLine("What you prefer to do? 1.Meet and Service customers 2.add new Ingredient, 3. add new Food recipe");
+                int n = Convert.ToInt32(Console.ReadLine());
+                switch (n)
                 {
-                    customer.SetOrder(allIngredients, new Ingredient("Fish In Water"));
-                    customer.Service(allIngredients);
-                }
-                if (customer.Name == "Julie Mirage"|| customer.Name == "Bernard Unfortunate")
-                {
-                    customer.SetOrder(allIngredients, new Ingredient("Emperor Chicken"));
-                    customer.Service(allIngredients);
+                    case 1:
+                        Customer customerTemp = Customer.MeetNewbie(allIngredients, customers);
+                        Customer.Service(allIngredients, customers, customerTemp.Name); 
+                    default:
                 }
             }*/
+            
+        }
+        static void ShowAllIngredients(List<Ingredient> allIngredients)
+        {
             foreach (Ingredient ingredient in allIngredients)
             {
                 Console.WriteLine(ingredient.Name + " " + ingredient.Count);
