@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chiken Kitchen", "Chiken Kitchen\Chiken Kitchen.csproj", "{569E4D8D-D512-4DC5-878C-80C207E60E1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chiken KitchenTests", "Chiken KitchenTests\Chiken KitchenTests.csproj", "{A2C87DE0-02EB-4A8B-8FFD-4907AA6E8EC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{569E4D8D-D512-4DC5-878C-80C207E60E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{569E4D8D-D512-4DC5-878C-80C207E60E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{569E4D8D-D512-4DC5-878C-80C207E60E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{569E4D8D-D512-4DC5-878C-80C207E60E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C87DE0-02EB-4A8B-8FFD-4907AA6E8EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C87DE0-02EB-4A8B-8FFD-4907AA6E8EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C87DE0-02EB-4A8B-8FFD-4907AA6E8EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C87DE0-02EB-4A8B-8FFD-4907AA6E8EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1ACA8A2-1B61-4C4E-ADF5-DB0A53D1D00F}
+	EndGlobalSection
+EndGlobal
