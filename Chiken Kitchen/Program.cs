@@ -25,10 +25,6 @@ namespace Chiken_Kitchen
                     customer.Service(allIngredients);
                 }
             }
-            foreach (Ingredient ingredient in allIngredients)
-            {
-                Console.WriteLine(ingredient.Name + " " + ingredient.Count);
-            }
         }
     }
 }
