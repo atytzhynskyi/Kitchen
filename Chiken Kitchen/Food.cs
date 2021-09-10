@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Chiken_Kitchen
 {
@@ -17,6 +18,22 @@ namespace Chiken_Kitchen
         {
             Recipe.AddRange(_Recipe);
         }
+
+        public void AddNewFood(List<Ingredient> allIngredients)
+        {
+            Console.WriteLine("Do you want add new recipe? What is name of this food?");
+            Name = Console.ReadLine();
+            Console.WriteLine("What are in the recipe? (please use ',' between ingredients)");
+            string[] ingredientsRecipeName = Console.ReadLine().Split(", ");
+            List<Ingredient> ingredientsRecipe = new List<Ingredient>();
+            foreach (string ingredientName in ingredientsRecipeName)
+            {
+                ingredientsRecipe.Add(new Ingredient(ingredientName));
+            }
+            Recipe.AddRange(ingredientsRecipe);
+            allIngredients.Add(this);
+            Console.WriteLine(Name + " added to the menu");
+        }
         public override void Cook(List<Ingredient> allIngredients)
         {
             if (!isEnoughIngredients(allIngredients))
@@ -27,24 +44,25 @@ namespace Chiken_Kitchen
         }
         public override void CookWithoutCheck(List<Ingredient> allIngredients)
         {
-            foreach (Ingredient ingredient in allIngredients)
-                foreach (Ingredient ingredientRecipe in Recipe)
+            foreach (var (ingredient, ingredientRecipe) in from Ingredient ingredient in allIngredients
+                                                           from Ingredient ingredientRecipe in Recipe
+                                                           where ingredientRecipe.Name == ingredient.Name
+                                                           select (ingredient, ingredientRecipe))
+            {
+                while (ingredient.GetRecipe().Count != 0 && ingredient.Count < ingredientRecipe.Count)
                 {
-                    if (ingredientRecipe.Name == ingredient.Name)
-                    {
-                        while (ingredient.GetRecipe().Count != 0 && ingredient.Count < ingredientRecipe.Count)
-                        {
-                            ingredient.CookWithoutCheck(allIngredients);
-                        }
-                        ingredient.UseIngredient(allIngredients);
-                    }
+                    ingredient.CookWithoutCheck(allIngredients);
                 }
+
+                ingredient.UseIngredient(allIngredients);
+            }
+
             Count++;
         }
         public override bool isEnoughIngredients(List<Ingredient> allIngredients)
         {
             List<int> startValues = new List<int>();
-            foreach (Ingredient ingredient in allIngredients)
+            foreach (var ingredient in allIngredients)
             {
                 startValues.Add(ingredient.Count);
             }
@@ -54,7 +72,7 @@ namespace Chiken_Kitchen
             foreach (Ingredient ingredient in allIngredients)
             {
                 foreach (Ingredient ingredientRecipe in GetRecipe())
-                    if (ingredient.Count < 0 && ingredient.Name==ingredientRecipe.Name)
+                    if (ingredient.Count < 0 && ingredient.Name == ingredientRecipe.Name)
                     {
                         missingIngredients.Add(ingredient);
                     }

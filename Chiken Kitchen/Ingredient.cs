@@ -20,7 +20,7 @@ namespace Chiken_Kitchen
         }
         public void UseIngredient(List<Ingredient> allIngredients)
         {
-            foreach(Ingredient ingredient in allIngredients)
+            foreach (Ingredient ingredient in allIngredients)
             {
                 if (ingredient.Name == Name)
                 {
@@ -28,6 +28,15 @@ namespace Chiken_Kitchen
                     return;
                 }
             }
+        }
+        public void AddNewIngredient(List<Ingredient> allIngredients)
+        {
+            Console.WriteLine("Are you want buying new ingredient? What would you prefer?");
+            Name = Console.ReadLine();
+            Console.WriteLine("How many do you want?");
+            Count = Convert.ToInt32(Console.ReadLine());
+            allIngredients.Add(this);
+            Console.WriteLine("New ingredient " + Name + " added");
         }
         public virtual void Cook(List<Ingredient> allIngredients) => throw new NotImplementedException();
         public virtual void CookWithoutCheck(List<Ingredient> allIngredients) => throw new NotImplementedException();

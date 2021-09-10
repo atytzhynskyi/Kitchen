@@ -12,18 +12,26 @@ namespace Chiken_Kitchen
             FillLists.FillFoodRecipe(allIngredients);
             List<Customer> customers = new List<Customer>();
             FillLists.FillCustomers(customers);
-            foreach(Customer customer in customers)
+            Customer.MeetCustomer(allIngredients, customers, "Julie Mirage");
+            Customer.MeetCustomer(allIngredients, customers, "Julie Mirage");
+            Customer.MeetCustomer(allIngredients, customers, "Elon Carousel");
+            Customer.MeetCustomer(allIngredients, customers, "Bernard Unfortunate");
+            /*foreach(Customer customer in customers)
             {
                 if (customer.Name == "Julie Mirage"|| customer.Name == "Elon Carousel")
                 {
-                    customer.SetOrder(new Ingredient("Fish In Water"), allIngredients);
+                    customer.SetOrder(allIngredients, new Ingredient("Fish In Water"));
                     customer.Service(allIngredients);
                 }
                 if (customer.Name == "Julie Mirage"|| customer.Name == "Bernard Unfortunate")
                 {
-                    customer.SetOrder(new Ingredient("Emperor Chicken"), allIngredients);
+                    customer.SetOrder(allIngredients, new Ingredient("Emperor Chicken"));
                     customer.Service(allIngredients);
                 }
+            }*/
+            foreach (Ingredient ingredient in allIngredients)
+            {
+                Console.WriteLine(ingredient.Name + " " + ingredient.Count);
             }
         }
     }
