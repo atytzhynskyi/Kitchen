@@ -25,8 +25,7 @@ namespace Chiken_Kitchen
             {
                 if (_Order.Name == ingredient.Name)
                 {
-                    Order.Name = ingredient.Name;
-                    Order.Count = 1;
+                    Order = new Food(ingredient.Name, 1);
                 }
             }
         }
@@ -36,7 +35,6 @@ namespace Chiken_Kitchen
             {
                 if (_Order.Name == ingredient.Name)
                 {
-                    Order = ingredient;
                     Order.Name = ingredient.Name;
                     Order.Count = OrderCount;
                 }
@@ -60,17 +58,6 @@ namespace Chiken_Kitchen
                 GiveFood(allIngredients);
             }
         }
-        public static void Service(List<Ingredient> allIngredients, List<Customer> customers, string _Name)
-        {
-            foreach(Customer customer in customers)
-            {
-                if(customer.Name == _Name)
-                {
-                    customer.Service(allIngredients);
-                    break;
-                }
-            }
-        }
         public void GiveFood(List<Ingredient> allIngredients)
         {
             foreach (Ingredient ingredient in allIngredients)
@@ -88,62 +75,6 @@ namespace Chiken_Kitchen
                 }
             }
             Console.WriteLine("Order doesnt exist in Ingedient List");
-        }
-
-        public static Customer Meet(List<Ingredient> allIngredients, List<Customer> customers, string _Name)
-        {
-            Customer customer = new Customer(_Name);
-            foreach (Customer customerTemp in customers)
-            {
-                if (customerTemp.Name == _Name)
-                {
-                    customer = customerTemp;
-                    break;
-                }
-            }
-            do
-            {
-                Console.WriteLine("Did you found what you want, {0}? y/n", _Name);
-                if (Console.ReadLine() == "n")
-                {
-                    Console.WriteLine("We so sorry, hope you come back soon");
-                    return customer;
-                }
-                Console.WriteLine("What you prefer to order?", _Name);
-                string _Order = Console.ReadLine();
-                customer.SetOrder(allIngredients, new Ingredient(_Order));
-                if (!customer.Order.isEnoughIngredients(allIngredients))
-                    Console.WriteLine("Can you order somethink else?");
-                if (Food.isAllergiesFood(allIngredients, customer.Order, customer.Allergies))
-                    Console.WriteLine("Sorry, this food is allergic to you");
-            }
-            while (Food.isAllergiesFood(allIngredients, customer.Order, customer.Allergies) || !customer.Order.isEnoughIngredients(allIngredients));
-            Console.WriteLine("How many do you want?");
-            int orderCount = Convert.ToInt32(Console.ReadLine());
-            customer.Order.Count = orderCount;
-            return customer;
-        }
-        public static Customer MeetNewbie(List<Ingredient> allIngredients, List<Customer> customers)
-        {
-            Console.WriteLine("Welcome to Chucken Kitchen, what is our name?");
-            string _Name = Console.ReadLine();
-            foreach(Customer customerTemp in customers)
-            {
-                if (customerTemp.Name == _Name)
-                {
-                    Meet(allIngredients, customers, _Name);
-                    return customerTemp;
-                }
-            }
-            Console.WriteLine("Do you have any allergies? please use ',' between allergic food");
-            string[] allergicFoodName = Console.ReadLine().Split(", ");
-            Customer customer = new Customer(_Name);
-            foreach (string ingredientName in allergicFoodName)
-            {
-                customer.Allergies.Add(new Ingredient(ingredientName));
-            }
-            Meet(allIngredients, customers, customer.Name);
-            return customer;
         }
     }
 }

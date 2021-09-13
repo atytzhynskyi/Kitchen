@@ -18,22 +18,6 @@ namespace Chiken_Kitchen
         {
             Recipe.AddRange(_Recipe);
         }
-
-        public void AddNewFood(List<Ingredient> allIngredients)
-        {
-            Console.WriteLine("Do you want add new recipe? What is name of this food?");
-            Name = Console.ReadLine();
-            Console.WriteLine("What are in the recipe? (please use ',' between ingredients)");
-            string[] ingredientsRecipeName = Console.ReadLine().Split(", ");
-            List<Ingredient> ingredientsRecipe = new List<Ingredient>();
-            foreach (string ingredientName in ingredientsRecipeName)
-            {
-                ingredientsRecipe.Add(new Ingredient(ingredientName));
-            }
-            Recipe.AddRange(ingredientsRecipe);
-            allIngredients.Add(this);
-            Console.WriteLine(Name + " added to the menu");
-        }
         public override void Cook(List<Ingredient> allIngredients)
         {
             if (!isEnoughIngredients(allIngredients))
