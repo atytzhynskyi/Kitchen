@@ -2,7 +2,9 @@
 {
     interface IKitchen
     {
-        void Cook(Menu menu, Ingredient order);
-        bool isEnoughIngredients(Menu menu, Ingredient food);
+        void Cook(Food order);
+        bool isEnoughIngredients(Food food);
+        void AddNewIngredient();
+        void ShowAll();
     }
 }

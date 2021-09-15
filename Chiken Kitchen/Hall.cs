@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Chiken_Kitchen
 {
-    class Hall : IHall
+    public class Hall : IHall
     {
         List<Customer> AllCustomers = new List<Customer>();
         public Hall()
@@ -53,17 +53,17 @@ namespace Chiken_Kitchen
         }
         public void GiveFood(Menu menu, Customer customer)
         {
-            foreach (Ingredient ingredient in menu.AllIngredients)
+            foreach (Food food in menu.Foods)
             {
-                if (ingredient.Name == customer.Order.Name)
+                if (food.Name == customer.Order.Name)
                 {
-                    if (ingredient.Count < customer.Order.Count)
+                    if (food.Count < customer.Order.Count)
                     {
                         Console.WriteLine("We dont have " + customer.Order.Name);
                         return;
                     }
-                    ingredient.Count -= customer.Order.Count;
-                    Console.WriteLine(customer.Name + " get " + ingredient.Name);
+                    food.Count -= customer.Order.Count;
+                    Console.WriteLine(customer.Name + " get " + food.Name);
                     customer.Order = new Food("");
                     return;
                 }
@@ -81,15 +81,14 @@ namespace Chiken_Kitchen
             }
             return allergicIngredients;
         }
-        public Ingredient AskOrder()
+        public Food AskOrder()
         {
-            Ingredient ingredient;
             Console.WriteLine("What you prefer to order?");
             string _Order = Console.ReadLine();
             Console.WriteLine("How many do you want?");
             int orderCount = Convert.ToInt32(Console.ReadLine());
-            ingredient = new Ingredient(_Order, orderCount);
-            return ingredient;
+            Food food = new Food(_Order, orderCount);
+            return food;
         }
         public string AskName()
         {

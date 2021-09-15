@@ -6,9 +6,8 @@ namespace Chiken_Kitchen
 {
     interface IMenu
     {
-        public List<Ingredient> GetAllIngredients();
+        public List<Food> GetFoods();
         public void AddNewFood();
-        public void AddNewIngredient();
-        public void ShowAllIngredients();
+        void ShowAll();
     }
 }

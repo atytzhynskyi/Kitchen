@@ -4,24 +4,38 @@ using System.Text;
 
 namespace Chiken_Kitchen
 {
-    class Menu : IMenu
+    public class Menu : IMenu
     {
-        public List<Ingredient> AllIngredients = new List<Ingredient>();
+        public List<Food> Foods = new List<Food>();
+        public List<Food> GetFoods() => Foods;
         public Menu()
         {
-            FillFoodsRecipe(AllIngredients);
-            FillBaseIngredients(AllIngredients);
+            FillFoodsRecipe();
         }
-        public Menu(List<Ingredient> ingredients)
+        public Menu(List<Food> _Foods)
         {
-            AllIngredients.AddRange(ingredients);
+            Foods.AddRange(_Foods);
         }
-        public List<Ingredient> GetAllIngredients() => AllIngredients;
+        private void FillFoodsRecipe()
+        {
+            Foods.Add(new Food("Emperor Chicken"));
+            Foods.Add(new Food("Fat Cat Chiken"));
+            Foods.Add(new Food("Princess Chicken"));
+            Foods.Add(new Food("Youth Sauce"));
+            Foods.Add(new Food("Spicy Sauce"));
+            Foods.Add(new Food("Omega Sauce"));
+            Foods.Add(new Food("Diamond Salad"));
+            Foods.Add(new Food("Ruby Salad"));
+            Foods.Add(new Food("Fries"));
+            Foods.Add(new Food("Smashed Potatoes"));
+            Foods.Add(new Food("Tuna Cake"));
+            Foods.Add(new Food("Fish In Water"));
+        }
         public void AddNewFood()
         {
             Console.WriteLine("What is name of new food?");
             string foodName = Console.ReadLine();
-            Food food = new Food(foodName, 0);
+            Food food = new Food(foodName);
             Console.WriteLine("What are in the recipe? (please use ',' between ingredients)");
             string[] ingredientsRecipeSplit = Console.ReadLine().Split(", ");
             List<Ingredient> ingredientsRecipe = new List<Ingredient>();
@@ -30,47 +44,14 @@ namespace Chiken_Kitchen
                 ingredientsRecipe.Add(new Ingredient(ingredientNameStr));
             }
             food.Recipe.AddRange(ingredientsRecipe);
-            AllIngredients.Add(food);
+            Foods.Add(food);
             Console.WriteLine(food.Name + " added to the menu");
         }
-        public void AddNewIngredient()
+        public void ShowAll()
         {
-            Console.WriteLine("What is name of new ingredient?");
-            string inredientName = Console.ReadLine();
-            Console.WriteLine("How many do you want?");
-            int ingredientCount = Convert.ToInt32(Console.ReadLine());
-            Ingredient ingredient = new Ingredient(inredientName, ingredientCount);
-            AllIngredients.Add(ingredient);
-            Console.WriteLine("New ingredient " + ingredient.Name + " added");
-        }
-        private void FillFoodsRecipe(List<Ingredient> allIngredients)
-        {
-            allIngredients.Add(new Food("Emperor Chicken", 0, new Ingredient("Fat Cat Chiken"), new Ingredient("Spicy Sauce"), new Ingredient("Tuna Cake")));
-            allIngredients.Add(new Food("Fat Cat Chiken", 0, new Ingredient("Princess Chicken"), new Ingredient("Youth Sauce"), new Ingredient("Fries"), new Food("Tuna Cake")));
-            allIngredients.Add(new Food("Princess Chicken", 0, new Ingredient("Chicken"), new Ingredient("Youth Sauce")));
-            allIngredients.Add(new Food("Youth Sauce", 0, new Ingredient("Asparagus"), new Ingredient("Milk"), new Ingredient("Honey")));
-            allIngredients.Add(new Food("Spicy Sauce", 0, new Ingredient("Paprika"), new Ingredient("Garlic"), new Ingredient("Water")));
-            allIngredients.Add(new Food("Omega Sauce", 0, new Ingredient("Lemon"), new Ingredient("Water")));
-            allIngredients.Add(new Food("Diamond Salad", 0, new Ingredient("Tomatoes"), new Ingredient("Pickles"), new Ingredient("Feta")));
-            allIngredients.Add(new Food("Ruby Salad", 0, new Ingredient("Tomatoes"), new Ingredient("Vinegar")));
-            allIngredients.Add(new Food("Fries", 0, new Ingredient("Potatoes")));
-            allIngredients.Add(new Food("Smashed Potatoes", 0, new Ingredient("Potatoes")));
-            allIngredients.Add(new Food("Tuna Cake", 0, new Ingredient("Tuna"), new Ingredient("Chocolate"), new Ingredient("Youth Sauce")));
-            allIngredients.Add(new Food("Fish In Water", 0, new Ingredient("Tuna"), new Ingredient("Omega Sauce"), new Ingredient("Ruby Salad")));
-        }
-        private static void FillBaseIngredients(List<Ingredient> allIngredients)
-        {
-            string[] BaseIngredients = "Chicken, Tuna, Potatoes, Asparagus, Milk, Honey, Paprika, Garlic, Water, Lemon, Tomatoes, Pickles, Feta, Vinegar, Rice, Chocolate".Split(", ");
-            foreach (string i in BaseIngredients)
+            foreach (Food food in Foods)
             {
-                allIngredients.Add(new Ingredient(i, 10));
-            }
-        }
-        public void ShowAllIngredients()
-        {
-            foreach (Ingredient ingredient in AllIngredients)
-            {
-                Console.WriteLine(ingredient.Name + " " + ingredient.Count);
+                Console.WriteLine(food.Name);
             }
         }
     }
