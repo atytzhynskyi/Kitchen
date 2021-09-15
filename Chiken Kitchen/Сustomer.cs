@@ -18,63 +18,31 @@ namespace Chiken_Kitchen
         {
             Name = _Name;
         }
-        
-        public void SetOrder(List<Ingredient> allIngredients, Ingredient _Order)
+        public void SetOrder(Menu menu, Ingredient _Order)
         {
-            foreach (Ingredient ingredient in allIngredients)
+            foreach (Ingredient ingredient in menu.AllIngredients)
             {
                 if (_Order.Name == ingredient.Name)
                 {
-                    Order = new Food(ingredient.Name, 1);
+                    Order.Name = ingredient.Name;
+                    Order.Count = 1;
+                    return;
                 }
             }
+            Console.WriteLine("Order doesnt exist in menu");
         }
-        public void SetOrder(List<Ingredient> allIngredients, Ingredient _Order, int OrderCount)
+        public void SetOrder(Menu menu, Ingredient _Order, int OrderCount)
         {
-            foreach (Ingredient ingredient in allIngredients)
+            foreach (Ingredient ingredient in menu.AllIngredients)
             {
                 if (_Order.Name == ingredient.Name)
                 {
                     Order.Name = ingredient.Name;
                     Order.Count = OrderCount;
-                }
-            }
-        }
-        public void Service(List<Ingredient> allIngredients)
-        {
-            if (Food.isAllergiesFood(allIngredients, Order, Allergies))
-            {
-                Console.WriteLine(Order.Name + " is allergic food for " + Name);
-            }
-            else
-            {
-                foreach (Ingredient ingredient in allIngredients)
-                {
-                    if (ingredient.Name == Order.Name)
-                    {
-                        ingredient.Cook(allIngredients);
-                    }
-                }
-                GiveFood(allIngredients);
-            }
-        }
-        public void GiveFood(List<Ingredient> allIngredients)
-        {
-            foreach (Ingredient ingredient in allIngredients)
-            {
-                if (ingredient.Name == Order.Name)
-                {
-                    if (ingredient.Count < Order.Count)
-                    {
-                        Console.WriteLine("We dont have " + Order.Name);
-                        return;
-                    }
-                    ingredient.Count -= Order.Count;
-                    Console.WriteLine(Name + " get " + ingredient.Name);
                     return;
                 }
             }
-            Console.WriteLine("Order doesnt exist in Ingedient List");
+            Console.WriteLine("Order doesnt exist in menu");
         }
     }
 }

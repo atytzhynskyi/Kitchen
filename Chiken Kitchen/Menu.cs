@@ -19,7 +19,7 @@ namespace Chiken_Kitchen
         public List<Ingredient> GetAllIngredients() => AllIngredients;
         public void AddNewFood()
         {
-            Console.WriteLine("Do you want add new recipe? What is name of this food?");
+            Console.WriteLine("What is name of new food?");
             string foodName = Console.ReadLine();
             Food food = new Food(foodName, 0);
             Console.WriteLine("What are in the recipe? (please use ',' between ingredients)");
@@ -35,7 +35,7 @@ namespace Chiken_Kitchen
         }
         public void AddNewIngredient()
         {
-            Console.WriteLine("Are you want buying new ingredient? What would you prefer?");
+            Console.WriteLine("What is name of new ingredient?");
             string inredientName = Console.ReadLine();
             Console.WriteLine("How many do you want?");
             int ingredientCount = Convert.ToInt32(Console.ReadLine());
@@ -64,6 +64,13 @@ namespace Chiken_Kitchen
             foreach (string i in BaseIngredients)
             {
                 allIngredients.Add(new Ingredient(i, 10));
+            }
+        }
+        public void ShowAllIngredients()
+        {
+            foreach (Ingredient ingredient in AllIngredients)
+            {
+                Console.WriteLine(ingredient.Name + " " + ingredient.Count);
             }
         }
     }

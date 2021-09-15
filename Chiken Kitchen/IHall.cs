@@ -6,12 +6,12 @@ namespace Chiken_Kitchen
 {
     interface IHall
     {
-        public Customer Meet(Menu menu, string Name);
         public List<Customer> GetAllCustomers();
-        public string AskCustomersName();
-        public void Service(Menu menu, string Name);
-        public Ingredient AskOrder(Menu menu, Customer customer);
-        public Customer GetCustomerHall(string Name);
-        public void SetCustomersOrder(Menu menu, string Name, Ingredient order);
+        public bool isNewCustomer(string Name);
+        public void GiveFood(Menu menu, Customer customer);
+        public List<Ingredient> AskAllergies();
+        public Ingredient AskOrder();
+        public string AskName();
+        public Customer GetCustomer(string Name);
     }
 }

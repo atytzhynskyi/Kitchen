@@ -9,46 +9,26 @@ namespace Chiken_Kitchen
         {
             IMenu menu = new Menu();
             IHall hall = new Hall();
-            
+            IKitchen kitchen = new Kitchen();
 
-            hall.Meet((Menu)menu, "Julie Mirage");
-            hall.SetCustomersOrder((Menu)menu, "Julie Mirage", new Ingredient("Fish In Water"));
-            hall.Service((Menu)menu, "Julie Mirage");
-
-            hall.Meet((Menu)menu, "Julie Mirage");
-            hall.SetCustomersOrder((Menu)menu, "Julie Mirage", new Ingredient("Emperor Chicken"));
-            hall.Service((Menu)menu, "Julie Mirage");
-
-            hall.Meet((Menu)menu, "Elon Carousel");
-            hall.SetCustomersOrder((Menu)menu, "Elon Carousel", new Ingredient("Fish In Water"));
-            hall.Service((Menu)menu, "Elon Carousel");
-
-            hall.Meet((Menu)menu, "Bernard Unfortunate");
-            hall.SetCustomersOrder((Menu)menu, "Bernard Unfortunate", new Ingredient("Emperor Chicken"));
-            hall.Service((Menu)menu, "Bernard Unfortunate");
-
-            string Name = hall.AskCustomersName();
-            hall.Meet((Menu)menu, Name);
-            hall.SetCustomersOrder((Menu)menu, Name, hall.AskOrder((Menu)menu, hall.GetCustomerHall(Name)));
-            hall.Service((Menu)menu, Name);
-            /*while (2+2!=5)
+            Customer customer = new Customer(hall.AskName());
+            if(hall.isNewCustomer(customer.Name))
+                customer.Allergies=hall.AskAllergies();
+            else 
+                customer.Allergies = hall.GetCustomer(customer.Name).Allergies;
+            customer.SetOrder((Menu)menu, hall.AskOrder());
+            if(customer.Order.isAllergic((Menu)menu, customer.Allergies))
             {
-                Console.WriteLine("What you prefer to do? 1.Meet and Service customers 2.add new Ingredient, 3. add new Food recipe");
-                int n = Convert.ToInt32(Console.ReadLine());
-                switch (n)
+                Console.WriteLine("This food is alergic to " + customer.Name);
+            }
+            else
+            {
+                if (kitchen.isEnoughIngredients((Menu)menu, customer.Order))
                 {
-                    case 1:
-                        Customer customerTemp = Customer.MeetNewbie(allIngredients, customers);
-                        Customer.Service(allIngredients, customers, customerTemp.Name); 
-                    default:
+                    kitchen.Cook((Menu)menu, customer.Order);
+                    hall.GiveFood((Menu)menu, customer);
                 }
-            }*/
-        }
-        static void ShowAllIngredients(List<Ingredient> allIngredients)
-        {
-            foreach (Ingredient ingredient in allIngredients)
-            {
-                Console.WriteLine(ingredient.Name + " " + ingredient.Count);
+                else Console.WriteLine("We dont have enough ingredients to cook " + customer.Order.Name);
             }
         }
     }

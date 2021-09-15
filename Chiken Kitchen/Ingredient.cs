@@ -24,14 +24,23 @@ namespace Chiken_Kitchen
             {
                 if (ingredient.Name == Name)
                 {
-                    Count--;
+                    ingredient.Count--;
                     return;
                 }
             }
         }
-        public virtual void Cook(List<Ingredient> allIngredients) => throw new NotImplementedException();
-        public virtual void CookWithoutCheck(List<Ingredient> allIngredients) => throw new NotImplementedException();
+        public virtual bool isAllergic(Menu menu, List<Ingredient> customerAllergies)
+        {
+            foreach(Ingredient ingredient in customerAllergies)
+            {
+                if (ingredient.Name == Name)
+                {
+                    Console.WriteLine("!");
+                    return true;
+                }
+            }
+            return false;
+        }
         public virtual List<Ingredient> GetRecipe() => new List<Ingredient>();
-        public virtual bool isEnoughIngredients(List<Ingredient> allIngredients) => throw new NotImplementedException();
     }
 }

@@ -9,5 +9,6 @@ namespace Chiken_Kitchen
         public List<Ingredient> GetAllIngredients();
         public void AddNewFood();
         public void AddNewIngredient();
+        public void ShowAllIngredients();
     }
 }

@@ -18,74 +18,11 @@ namespace Chiken_Kitchen
         {
             Recipe.AddRange(_Recipe);
         }
-        public override void Cook(List<Ingredient> allIngredients)
+        public override bool isAllergic(Menu menu, List<Ingredient> customerAllergies)
         {
-            if (!isEnoughIngredients(allIngredients))
-            {
-                return;
-            }
-            CookWithoutCheck(allIngredients);
-        }
-        public override void CookWithoutCheck(List<Ingredient> allIngredients)
-        {
-            foreach (var (ingredient, ingredientRecipe) in from Ingredient ingredient in allIngredients
-                                                           from Ingredient ingredientRecipe in Recipe
-                                                           where ingredientRecipe.Name == ingredient.Name
-                                                           select (ingredient, ingredientRecipe))
-            {
-                while (ingredient.GetRecipe().Count != 0 && ingredient.Count < ingredientRecipe.Count)
-                {
-                    ingredient.CookWithoutCheck(allIngredients);
-                }
-
-                ingredient.UseIngredient(allIngredients);
-            }
-
-            Count++;
-        }
-        public override bool isEnoughIngredients(List<Ingredient> allIngredients)
-        {
-            List<int> startValues = new List<int>();
-            foreach (var ingredient in allIngredients)
-            {
-                startValues.Add(ingredient.Count);
-            }
-
-            CookWithoutCheck(allIngredients);
-            List<Ingredient> missingIngredients = new List<Ingredient>();
-            foreach (Ingredient ingredient in allIngredients)
-            {
-                foreach (Ingredient ingredientRecipe in GetRecipe())
-                    if (ingredient.Count < 0 && ingredient.Name == ingredientRecipe.Name)
-                    {
-                        missingIngredients.Add(ingredient);
-                    }
-            }
-            if (missingIngredients.Count != 0)
-            {
-                foreach (Ingredient ingredient in missingIngredients)
-                {
-                    Console.WriteLine("We dont have enough " + ingredient.Name);
-                }
-                SetStartCount(allIngredients, startValues);
-                return false;
-            }
-            SetStartCount(allIngredients, startValues);
-            return true;
-        }
-        private void SetStartCount(List<Ingredient> allIngredients, List<int> StartValues)
-        {
-            int i = 0;
-            foreach (Ingredient ingredient in allIngredients)
-            {
-                ingredient.Count = StartValues[i];
-                i++;
-            }
-        }
-        static public bool isAllergiesFood(List<Ingredient> allIngredients, Ingredient food, List<Ingredient> customerAllergies)
-        {
-            foreach (Ingredient ingredient in allIngredients) //Set ingredient from allIngredient as customerOrder to set a Recipe
-                if (food.Name == ingredient.Name)
+            Ingredient food = new Food("");
+            foreach (Ingredient ingredient in menu.AllIngredients) //Set ingredient from allIngredient as customerOrder to set a Recipe
+                if (Name == ingredient.Name)
                 {
                     food = ingredient;
                     break;
@@ -93,11 +30,14 @@ namespace Chiken_Kitchen
             foreach (Ingredient ingredient in food.GetRecipe())
             {
                 foreach (Ingredient allergiesIngredient in customerAllergies)
-                    if (ingredient.Name == allergiesIngredient.Name)
+                    if (ingredient.Name == allergiesIngredient.Name) return true;
+                foreach(Ingredient menuIngredient in menu.AllIngredients)
+                {
+                    if(menuIngredient.Name == ingredient.Name)
                     {
-                        return true;
+                        if (menuIngredient.isAllergic(menu, customerAllergies)) return true;
                     }
-                if (isAllergiesFood(allIngredients, ingredient, customerAllergies)) return true;
+                }
             }
             return false;
         }

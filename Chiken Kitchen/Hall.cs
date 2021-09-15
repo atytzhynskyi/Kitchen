@@ -7,7 +7,6 @@ namespace Chiken_Kitchen
     class Hall : IHall
     {
         List<Customer> AllCustomers = new List<Customer>();
-        List<Customer> CustomersInHall = new List<Customer>();
         public Hall()
         {
             FillCustomers();
@@ -25,56 +24,51 @@ namespace Chiken_Kitchen
             AllCustomers.Add(new Customer("Christian Donnovan", new Ingredient("Paprika")));
             AllCustomers.Add(new Customer("Bernard Unfortunate", new Ingredient("Potatoes")));
         }
-        public Customer GetCustomerHall(string Name)
+        public List<Customer> GetAllCustomers() => AllCustomers;
+        public bool isNewCustomer(string Name)
         {
-            foreach(Customer customer in CustomersInHall)
+            foreach (Customer customerTemp in AllCustomers)
+            {
+                if (customerTemp.Name == Name)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public void AddNewCustomer(Customer customer)
+        {
+            AllCustomers.Add(customer);
+        }
+        public Customer GetCustomer(string Name)
+        {
+            foreach(Customer customer in AllCustomers)
             {
                 if(customer.Name == Name)
                 {
                     return customer;
                 }
             }
-            Console.WriteLine("customer didnt found");
             return new Customer("NULL");
         }
-        public void SetCustomersOrder(Menu menu, string Name, Ingredient order)
+        public void GiveFood(Menu menu, Customer customer)
         {
-            foreach(Customer customer in CustomersInHall)
+            foreach (Ingredient ingredient in menu.AllIngredients)
             {
-                if(customer.Name == Name)
+                if (ingredient.Name == customer.Order.Name)
                 {
-                    customer.SetOrder(menu.AllIngredients, order);
+                    if (ingredient.Count < customer.Order.Count)
+                    {
+                        Console.WriteLine("We dont have " + customer.Order.Name);
+                        return;
+                    }
+                    ingredient.Count -= customer.Order.Count;
+                    Console.WriteLine(customer.Name + " get " + ingredient.Name);
+                    customer.Order = new Food("");
                     return;
                 }
             }
-        }
-        public List<Customer> GetAllCustomers()
-        {
-            return AllCustomers;
-        }
-        public string AskCustomersName()
-        {
-            Console.WriteLine("Welcome to Chicken Kitchen, what is your name?");
-            string Name = Console.ReadLine();
-            return Name;
-        }
-        public Customer Meet(Menu menu, string Name)
-        {
-            Customer customer = new Customer(Name);
-            bool isNewCustomer = true;
-            foreach (Customer customerTemp in AllCustomers)
-            {
-                if (customerTemp.Name == Name)
-                {
-                    isNewCustomer = false;
-                    customer = customerTemp;
-                    break;
-                }
-            }
-            if (isNewCustomer) 
-                customer.Allergies.AddRange(AskAllergies());
-            CustomersInHall.Add(customer);
-            return customer;
+            Console.WriteLine("Order doesnt exist in Ingedient List");
         }
         public List<Ingredient> AskAllergies()
         {
@@ -87,64 +81,21 @@ namespace Chiken_Kitchen
             }
             return allergicIngredients;
         }
-        public Ingredient AskOrder(Menu menu, Customer customer)
+        public Ingredient AskOrder()
         {
-            Ingredient ingredient = new Food("",0);
-            string _Order = "";
-            do
-            {
-                Console.WriteLine("Did you found what you wanted, {0}? y/n", customer.Name);
-                string answear = Console.ReadLine();
-                if (answear == "n")
-                {
-                    Console.WriteLine("We so sorry, hope you come back soon");
-                    return ingredient;
-                }
-                else if (answear == "y")
-                {
-                    Console.WriteLine("What you prefer to order?");
-                    _Order = Console.ReadLine();
-                    customer.SetOrder(menu.AllIngredients, new Ingredient(_Order));
-                    if (!customer.Order.isEnoughIngredients(menu.AllIngredients))
-                        Console.WriteLine("Can you order somethink else?");
-                    if (Food.isAllergiesFood(menu.AllIngredients, customer.Order, customer.Allergies))
-                        Console.WriteLine("Sorry, this food is allergic to you");
-                }
-                else continue;
-            }
-            while (
-                Food.isAllergiesFood(menu.AllIngredients, customer.Order, customer.Allergies) || !customer.Order.isEnoughIngredients(menu.AllIngredients));
+            Ingredient ingredient;
+            Console.WriteLine("What you prefer to order?");
+            string _Order = Console.ReadLine();
             Console.WriteLine("How many do you want?");
             int orderCount = Convert.ToInt32(Console.ReadLine());
             ingredient = new Ingredient(_Order, orderCount);
             return ingredient;
         }
-        public void Service(Menu menu, string Name)
+        public string AskName()
         {
-            foreach(Customer customer in CustomersInHall)
-            {
-                if(customer.Name == Name)
-                {
-                    if (Food.isAllergiesFood(menu.AllIngredients, customer.Order, customer.Allergies))
-                    {
-                        Console.WriteLine(customer.Order.Name + " is allergic food for " + Name);
-                        return;
-                    }
-                    else
-                    {
-                        foreach (Ingredient ingredient in menu.AllIngredients)
-                        {
-                            if (ingredient.Name == customer.Order.Name)
-                            {
-                                ingredient.Cook(menu.AllIngredients);
-                            }
-                        }
-                        customer.GiveFood(menu.AllIngredients);
-                        CustomersInHall.Remove(customer);
-                    }
-                    return;
-                }
-            }
+            Console.WriteLine("Welcome to Chicken Kitchen, what is your name?");
+            string Name = Console.ReadLine();
+            return Name;
         }
     }
 }
