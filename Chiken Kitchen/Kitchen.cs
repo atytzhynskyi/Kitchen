@@ -52,6 +52,11 @@ namespace Chiken_Kitchen
         }
         public void Cook(Food order)
         {
+            if (!isEnoughIngredients(order))
+            {
+                Console.WriteLine("We dont have enough ingredient");
+                return;
+            }
             foreach (var food in Storage)
             {
                 if (order.Name == food.GetName() && food is Food)
@@ -60,21 +65,21 @@ namespace Chiken_Kitchen
                     break;
                 }
             }
-            foreach(var foodIngredients in Storage)
+            foreach (var foodIngredients in Storage)
             {
-                foreach(Ingredient ingredient in order.GetRecipe())
+                foreach (Ingredient ingredient in order.GetRecipe())
                 {
-                    if(ingredient.Name == foodIngredients.GetName())
+                    if (ingredient.Name == foodIngredients.GetName())
                     {
-                        if(foodIngredients is Food)
+                        if (foodIngredients is Food)
                         {
-                            while(ingredient.Count>foodIngredients.GetCount())
+                            while (foodIngredients.GetCount() < ingredient.GetCount())
                                 Cook((Food)foodIngredients);
-                            foodIngredients.SetCount(foodIngredients.GetCount()-ingredient.Count);
+                            foodIngredients.SetCount(foodIngredients.GetCount() - ingredient.Count);
                         }
-                        if(ingredient is Ingredient)
+                        else if (ingredient is Ingredient)
                         {
-                            foodIngredients.SetCount(foodIngredients.GetCount()-ingredient.Count);
+                            foodIngredients.SetCount(foodIngredients.GetCount() - ingredient.Count);
                         }
                     }
                 }
@@ -83,29 +88,93 @@ namespace Chiken_Kitchen
         }
         public bool isEnoughIngredients(Food food)
         {
-            List<IFoodIngredient> CopyStorage = new List<IFoodIngredient>();
-            foreach(var foodIngredient in Storage)
+            foreach (var foodIngredient in Storage)
             {
-                if(foodIngredient is Food)
+                if (food.Name == foodIngredient.GetName())
                 {
-                    CopyStorage.Add(new Food(foodIngredient.GetName(), foodIngredient.GetCount(), foodIngredient.GetRecipe().ToArray()));
-                }
-                else if(foodIngredient is Ingredient)
-                {
-                    CopyStorage.Add(new Ingredient(foodIngredient.GetName(), foodIngredient.GetCount()));
+                    food.Recipe = foodIngredient.GetRecipe();
                 }
             }
-            Kitchen kitchen = new Kitchen(CopyStorage);
-            kitchen.Cook(food);
-            foreach(var foodIngredient in kitchen.Storage)
+            List<Ingredient> RecipeList = new List<Ingredient>();
+            foreach (var foodIngredient in Storage)
             {
-                if (foodIngredient.GetCount() < 0)
+                foreach (Ingredient ingredient in food.Recipe)
                 {
-                    return false;
+                    if (ingredient.Name == foodIngredient.GetName())
+                    {
+                        if (foodIngredient is Food && foodIngredient.GetCount() < ingredient.Count)
+                        {
+                            RecipeList.AddRange(GetFullRecipe((Food)foodIngredient));
+                        }
+                        else RecipeList.Add(ingredient);
+                    }
+                }
+            }
+            RecipeList = CompressRecipeList(RecipeList);
+            
+            foreach(Ingredient ingredientRecipe in RecipeList)
+            {
+                foreach(var ingredient in Storage)
+                {
+                    if(ingredientRecipe.Name == ingredient.GetName() && ingredient.GetCount() < ingredientRecipe.Count)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
         }
+        private List<Ingredient> GetFullRecipe(Food food)
+        {
+            List<Ingredient> AllIngredient = new List<Ingredient>();
+            foreach (var foodIngredient in Storage)
+            {
+                foreach (Ingredient ingredient in food.GetRecipe())
+                {
+                    if (foodIngredient.GetName() == ingredient.Name)
+                    {
+                        if (foodIngredient is Food)
+                        {
+                            AllIngredient.AddRange(GetFullRecipe((Food)foodIngredient));
+                        }
+                        else AllIngredient.Add(ingredient);
+                    }
+                }
+            }
+            return AllIngredient;
+        }
+        private List<Ingredient> CompressRecipeList(List<Ingredient> RecipeList)
+        {
+            List<Ingredient> FinalRecipeList = new List<Ingredient>();
+            foreach(Ingredient ingredient in RecipeList)
+            {
+                bool isIngredientFound = false;
+                foreach(Ingredient ingredientFound in FinalRecipeList)
+                {
+                    if(ingredientFound.Name == ingredient.Name)
+                    {
+                        isIngredientFound = true;
+                    }
+                }
+                if (!isIngredientFound)
+                {
+                    FinalRecipeList.Add(new Ingredient(ingredient.Name));
+                }
+            }
+            foreach (Ingredient ingredientFinal in FinalRecipeList)
+            {
+                int Count = 0;
+                foreach (Ingredient ingredient in RecipeList)
+                {
+                    if(ingredient.Name == ingredientFinal.Name)
+                    {
+                        Count++;
+                    }
+                }
+                ingredientFinal.Count = Count;
+            }
+            return FinalRecipeList;
+        } // {(water,2),(water,3)} => {(water,5)}
         public void ShowAll()
         {
             foreach (var foodIngredient in Storage)

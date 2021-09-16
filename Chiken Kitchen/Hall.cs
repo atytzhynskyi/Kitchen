@@ -51,19 +51,19 @@ namespace Chiken_Kitchen
             }
             return new Customer("NULL");
         }
-        public void GiveFood(Menu menu, Customer customer)
+        public void GiveFood(Kitchen kitchen, Customer customer)
         {
-            foreach (Food food in menu.Foods)
+            foreach (var foodIngredient in kitchen.Storage)
             {
-                if (food.Name == customer.Order.Name)
+                if (foodIngredient.GetName() == customer.Order.Name)
                 {
-                    if (food.Count < customer.Order.Count)
+                    if (foodIngredient.GetCount() < customer.Order.Count)
                     {
                         Console.WriteLine("We dont have " + customer.Order.Name);
                         return;
                     }
-                    food.Count -= customer.Order.Count;
-                    Console.WriteLine(customer.Name + " get " + food.Name);
+                    foodIngredient.SetCount(foodIngredient.GetCount() - customer.Order.Count);
+                    Console.WriteLine(customer.Name + " get " + foodIngredient.GetName());
                     customer.Order = new Food("");
                     return;
                 }

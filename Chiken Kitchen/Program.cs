@@ -11,7 +11,25 @@ namespace Chiken_Kitchen
             IHall hall = new Hall();
             IKitchen kitchen = new Kitchen();
 
-            
+            Customer customer = new Customer("Julie Mirage");
+            if (hall.isNewCustomer(customer.Name)){
+                customer.Allergies = hall.AskAllergies();
+            }
+            Food order = new Food("Fish In Water");
+            if (menu.isFoodInMenu(order))
+            {
+                if (!customer.isAllergic((Kitchen)kitchen, order))
+                {
+                    customer.SetOrder((Menu)menu, order);
+                    if (kitchen.isEnoughIngredients(order))
+                    {
+                        kitchen.Cook(order);
+                        hall.GiveFood((Kitchen)kitchen, customer);
+                    }
+                    else Console.WriteLine("We dont have enough ingredients");
+                }
+                else Console.WriteLine(order.Name + " contains allergic ingredients for " + customer.Name);
+            }
         }
     }
 }
