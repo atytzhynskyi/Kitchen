@@ -8,16 +8,16 @@ namespace Chiken_Kitchen
     public class Kitchen : IKitchen
     {
         public List<Ingredient> BaseIngredients = new List<Ingredient>();
-        public List<Food> Foods = new List<Food>();
+        public List<Food> Recipes = new List<Food>();
         public Kitchen()
         {
             FillBaseIngredients();
             FillFoodsRecipe();
         }
-        public Kitchen(List<Ingredient> _BaseIngredients, List<Food> _Foods)
+        public Kitchen(List<Ingredient> _BaseIngredients, List<Food> _Recipes)
         {
             BaseIngredients = _BaseIngredients;
-            Foods = _Foods;
+            Recipes = _Recipes;
         }
         private void FillBaseIngredients()
         {
@@ -29,18 +29,18 @@ namespace Chiken_Kitchen
         }
         private void FillFoodsRecipe()
         {
-            Foods.Add(new Food("Emperor Chicken", 0, new Ingredient("Fat Cat Chiken"), new Ingredient("Spicy Sauce"), new Ingredient("Tuna Cake")));
-            Foods.Add(new Food("Fat Cat Chiken", 0, new Ingredient("Princess Chicken"), new Ingredient("Youth Sauce"), new Ingredient("Fries"), new Ingredient("Tuna Cake")));
-            Foods.Add(new Food("Princess Chicken", 0, new Ingredient("Chicken"), new Ingredient("Youth Sauce")));
-            Foods.Add(new Food("Youth Sauce", 0, new Ingredient("Asparagus"), new Ingredient("Milk"), new Ingredient("Honey")));
-            Foods.Add(new Food("Spicy Sauce", 0, new Ingredient("Paprika"), new Ingredient("Garlic"), new Ingredient("Water")));
-            Foods.Add(new Food("Omega Sauce", 0, new Ingredient("Lemon"), new Ingredient("Water")));
-            Foods.Add(new Food("Diamond Salad", 0, new Ingredient("Tomatoes"), new Ingredient("Pickles"), new Ingredient("Feta")));
-            Foods.Add(new Food("Ruby Salad", 0, new Ingredient("Tomatoes"), new Ingredient("Vinegar")));
-            Foods.Add(new Food("Fries", 0, new Ingredient("Potatoes")));
-            Foods.Add(new Food("Smashed Potatoes", 0, new Ingredient("Potatoes")));
-            Foods.Add(new Food("Tuna Cake", 0, new Ingredient("Tuna"), new Ingredient("Chocolate"), new Ingredient("Youth Sauce")));
-            Foods.Add(new Food("Fish In Water", 0, new Ingredient("Tuna"), new Ingredient("Omega Sauce"), new Ingredient("Ruby Salad")));
+            Recipes.Add(new Food("Emperor Chicken", 0, new Ingredient("Fat Cat Chiken"), new Ingredient("Spicy Sauce"), new Ingredient("Tuna Cake")));
+            Recipes.Add(new Food("Fat Cat Chiken", 0, new Ingredient("Princess Chicken"), new Ingredient("Youth Sauce"), new Ingredient("Fries"), new Ingredient("Tuna Cake")));
+            Recipes.Add(new Food("Princess Chicken", 0, new Ingredient("Chicken"), new Ingredient("Youth Sauce")));
+            Recipes.Add(new Food("Youth Sauce", 0, new Ingredient("Asparagus"), new Ingredient("Milk"), new Ingredient("Honey")));
+            Recipes.Add(new Food("Spicy Sauce", 0, new Ingredient("Paprika"), new Ingredient("Garlic"), new Ingredient("Water")));
+            Recipes.Add(new Food("Omega Sauce", 0, new Ingredient("Lemon"), new Ingredient("Water")));
+            Recipes.Add(new Food("Diamond Salad", 0, new Ingredient("Tomatoes"), new Ingredient("Pickles"), new Ingredient("Feta")));
+            Recipes.Add(new Food("Ruby Salad", 0, new Ingredient("Tomatoes"), new Ingredient("Vinegar")));
+            Recipes.Add(new Food("Fries", 0, new Ingredient("Potatoes")));
+            Recipes.Add(new Food("Smashed Potatoes", 0, new Ingredient("Potatoes")));
+            Recipes.Add(new Food("Tuna Cake", 0, new Ingredient("Tuna"), new Ingredient("Chocolate"), new Ingredient("Youth Sauce")));
+            Recipes.Add(new Food("Fish In Water", 0, new Ingredient("Tuna"), new Ingredient("Omega Sauce"), new Ingredient("Ruby Salad")));
         }
         public void AddNewIngredient()
         {
@@ -52,64 +52,89 @@ namespace Chiken_Kitchen
             BaseIngredients.Add(ingredient);
             Console.WriteLine("New ingredient " + ingredient.Name + " added");
         }
-        public void Cook(Food order)
+        public Food Cook(Food order)
         {
-            foreach (Food food in Foods)
+            foreach (Food food in Recipes)
             {
-                if (order.Name == food.Name)
-                {
-                    order = food;
-                    break;
-                }
+                if (food.Name == order.Name)
+                    order.Recipe = DeepCopyRecipe(food.Recipe);
             }
+
+            if (!isEnoughIngredients(order.Recipe))
+            {
+                Console.WriteLine("We dont have enough ingredients");
+                return order;
+            }
+            order.Recipe = GetBaseIngredientRecipe(order.Recipe);
             foreach (Ingredient ingredient in BaseIngredients)
             {
-                foreach (Ingredient ingredientRecipe in order.GetRecipe())
+                foreach (Ingredient ingredientRecipe in order.Recipe)
                 {
-                    if (ingredientRecipe.Name == ingredient.Name)
+                    if (ingredient.Name == ingredientRecipe.Name)
                     {
-                        ingredient.Count-=ingredientRecipe.Count;
-                    }
-                }
-            }
-            foreach(Food food in Foods)
-            {
-                foreach(Ingredient ingredient in order.GetRecipe())
-                {
-                    if (ingredient.Name == food.Name)
-                    {
-                        while (ingredient.Count > food.Count)
-                        {
-                            Cook(food);
-                        }
-                        food.Count -= ingredient.Count;
+                        ingredient.Count -= ingredientRecipe.Count;
                     }
                 }
             }
             order.Count++;
+            return order;
         }
-        public bool isEnoughIngredients(Food food)
+        public bool isEnoughIngredients(List<Ingredient> Recipe)
         {
-            List<Ingredient> BaseIngredientsCopy = new List<Ingredient>();
-            foreach (Ingredient ingredient in BaseIngredients)
+            List<Ingredient> CopyRecipe = DeepCopyRecipe(Recipe);
+            CopyRecipe = GetBaseIngredientRecipe(CopyRecipe);
+            foreach (Ingredient ingredientRecipe in CopyRecipe)
             {
-                BaseIngredientsCopy.Add(new Ingredient(ingredient.Name, ingredient.Count));
-            }
-            List<Food> FoodsCopy = new List<Food>();
-            foreach(Food _food in Foods)
-            {
-                FoodsCopy.Add(new Food(_food.Name, _food.Count, _food.Recipe.ToArray()));
-            }
-            Kitchen kitchen = new Kitchen(BaseIngredientsCopy, FoodsCopy);
-            kitchen.Cook(food);
-            foreach (Ingredient ingredient in BaseIngredientsCopy)
-            {
-                if (ingredient.Count < 0)
+                foreach (Ingredient ingredient in BaseIngredients)
                 {
-                    return false;
+                    if (ingredient.Name == ingredientRecipe.Name && ingredient.Count < ingredientRecipe.Count)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
+        }
+        private List<Ingredient> GetBaseIngredientRecipe(List<Ingredient> Recipe)
+        {
+            List<Ingredient> fullRecipe = new List<Ingredient>();
+            foreach (Ingredient ingredient in Recipe)
+            {
+                bool isFood = false;
+                foreach (Food food in Recipes)
+                {
+                    if (food.Name == ingredient.Name)
+                    {
+                        fullRecipe.AddRange(GetBaseIngredientRecipe(food.Recipe));
+                        isFood = true;
+                    }
+                }
+                if (!isFood)
+                {
+                    bool isFound = false;
+                    foreach(Ingredient ingredientFullRecipe in fullRecipe)
+                    {
+                        if (ingredientFullRecipe.Name == ingredient.Name)
+                        {
+                            ingredientFullRecipe.Count += ingredient.Count;
+                            isFound = true;
+                            break;
+                        }
+                    }
+                    if (isFound) continue;
+                    fullRecipe.Add(ingredient);
+                }
+            }
+            return fullRecipe;
+        }
+        private List<Ingredient> DeepCopyRecipe(List<Ingredient> Recipe)
+        {
+            List<Ingredient> CopyRecipe = new List<Ingredient>();
+            foreach (Ingredient ingredient in Recipe)
+            {
+                CopyRecipe.Add(new Ingredient(ingredient.Name, ingredient.Count));
+            }
+            return CopyRecipe;
         }
         public void ShowAll()
         {
@@ -117,7 +142,7 @@ namespace Chiken_Kitchen
             {
                 Console.WriteLine(ingredient.Name + " " + ingredient.Count);
             }
-            foreach (Food food in Foods)
+            foreach (Food food in Recipes)
             {
                 Console.WriteLine(food.Name + " " + food.Count);
             }

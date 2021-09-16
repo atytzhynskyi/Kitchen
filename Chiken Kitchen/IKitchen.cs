@@ -1,9 +1,11 @@
-﻿namespace Chiken_Kitchen
+﻿using System.Collections.Generic;
+
+namespace Chiken_Kitchen
 {
     interface IKitchen
     {
-        void Cook(Food order);
-        bool isEnoughIngredients(Food food);
+        Food Cook(Food order);
+        bool isEnoughIngredients(List<Ingredient> Recipe);
         void AddNewIngredient();
         void ShowAll();
     }

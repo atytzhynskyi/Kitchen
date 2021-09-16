@@ -46,7 +46,7 @@ namespace Chiken_Kitchen
         }
         public bool isAllergic(Kitchen kitchen, Food food)
         {
-            foreach (Food _food in kitchen.Foods)
+            foreach (Food _food in kitchen.Recipes)
             {
                 if (_food.Name == food.Name)
                 {
@@ -63,7 +63,7 @@ namespace Chiken_Kitchen
                     }
                 }
             }
-            foreach (Food _food in kitchen.Foods)
+            foreach (Food _food in kitchen.Recipes)
             {
                 foreach (Ingredient ingredient in food.Recipe)
                 {
