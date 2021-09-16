@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Chiken_Kitchen
 {
-    public class Food : IFoodIngredient
+    public class Food
     {
         public string Name;
         public int Count;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Chiken_Kitchen
 {
-    public class Ingredient : IFoodIngredient
+    public class Ingredient
     {
         public string Name;
         public int Count;

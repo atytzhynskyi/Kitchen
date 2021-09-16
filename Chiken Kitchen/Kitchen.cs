@@ -7,13 +7,14 @@ namespace Chiken_Kitchen
 {
     public class Kitchen : IKitchen
     {
-        public List<IFoodIngredient> Storage = new List<IFoodIngredient>();
+        public List<Ingredient> Storage = new List<Ingredient>();
+        public List<Food> Recipes = new List<Food>();
         public Kitchen()
         {
             FillBaseIngredients();
             FillFoodsRecipe();
         }
-        public Kitchen(List<IFoodIngredient> _Storage)
+        public Kitchen(List<Ingredient> _Storage, List<Food> _Resipes)
         {
             Storage = _Storage;
         }
