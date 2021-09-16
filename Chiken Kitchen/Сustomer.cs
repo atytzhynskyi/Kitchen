@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Chiken_Kitchen
 {
-    public class Customer
+    class Customer
     {
         public string Name;
-        public Food Order = new Food("");
+        public Ingredient Order = new Food("");
         public List<Ingredient> Allergies = new List<Ingredient>();
         public Customer(string _Name, params Ingredient[] _Allergies)
         {
@@ -20,11 +20,11 @@ namespace Chiken_Kitchen
         }
         public void SetOrder(Menu menu, Food _Order)
         {
-            foreach (Food food in menu.Foods)
+            foreach (Ingredient ingredient in menu.AllIngredients)
             {
-                if (_Order.Name == food.Name)
+                if (_Order.Name == ingredient.Name)
                 {
-                    Order.Name = food.Name;
+                    Order.Name = ingredient.Name;
                     Order.Count = 1;
                     return;
                 }
@@ -33,17 +33,18 @@ namespace Chiken_Kitchen
         }
         public void SetOrder(Menu menu, Food _Order, int OrderCount)
         {
-            foreach (Food food in menu.Foods)
+            foreach (Ingredient ingredient in menu.AllIngredients)
             {
-                if (_Order.Name == food.Name)
+                if (_Order.Name == ingredient.Name)
                 {
-                    Order.Name = food.Name;
+                    Order.Name = ingredient.Name;
                     Order.Count = OrderCount;
                     return;
                 }
             }
             Console.WriteLine("Order doesnt exist in menu");
         }
+<<<<<<< HEAD
         public bool isAllergic(Kitchen kitchen, Food food)
         {
             foreach (var foodIngredient in kitchen.Storage)
@@ -81,5 +82,7 @@ namespace Chiken_Kitchen
             }
             return false;
         }
+=======
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
     }
 }

@@ -10,7 +10,7 @@ namespace Chiken_Kitchen
         public bool isNewCustomer(string Name);
         public void GiveFood(Kitchen kitchen, Customer customer);
         public List<Ingredient> AskAllergies();
-        public Food AskOrder();
+        public Ingredient AskOrder();
         public string AskName();
         public Customer GetCustomer(string Name);
     }

@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Chiken_Kitchen
 {
-    public class Kitchen : IKitchen
+    class Kitchen : IKitchen
     {
+<<<<<<< HEAD
         public List<Ingredient> Storage = new List<Ingredient>();
         public List<Food> Recipes = new List<Food>();
         public Kitchen()
@@ -82,13 +83,28 @@ namespace Chiken_Kitchen
                         {
                             foodIngredients.SetCount(foodIngredients.GetCount() - ingredient.Count);
                         }
+=======
+        public Kitchen() { }
+        public void Cook(Menu menu, Ingredient order)
+        {
+            foreach (Ingredient ingredient in menu.AllIngredients)
+            {
+                if (ingredient.Name == order.Name)
+                {
+                    if (ingredient.GetRecipe().Count == 0) return;
+                    foreach (Ingredient ingredientRecipe in ingredient.GetRecipe())
+                    {
+                        Cook(menu, ingredientRecipe);
+                        ingredientRecipe.UseIngredient(menu.AllIngredients);
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
                     }
+                    ingredient.Count++;
                 }
             }
-            order.Count++;
         }
-        public bool isEnoughIngredients(Food food)
+        public bool isEnoughIngredients(Menu menu, Ingredient food)
         {
+<<<<<<< HEAD
             foreach (var foodIngredient in Storage)
             {
                 if (food.Name == foodIngredient.GetName())
@@ -121,10 +137,32 @@ namespace Chiken_Kitchen
                     {
                         return false;
                     }
+=======
+            List<int> startValues = (from ingredient in menu.AllIngredients
+                                     select ingredient.Count).ToList();
+            Cook(menu, food);
+            List<Ingredient> missingIngredients = new List<Ingredient>();
+            foreach (Ingredient ingredient in menu.AllIngredients)
+            {
+                if (ingredient.Count < 0)
+                {
+                    missingIngredients.Add(ingredient);
                 }
             }
+            if (missingIngredients.Count != 0)
+            {
+                foreach (Ingredient ingredient in missingIngredients)
+                {
+                    Console.WriteLine("We dont have enough " + ingredient.Name);
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
+                }
+                SetStartCount(menu.AllIngredients, startValues);
+                return false;
+            }
+            SetStartCount(menu.AllIngredients, startValues);
             return true;
         }
+<<<<<<< HEAD
         private List<Ingredient> GetFullRecipe(Food food)
         {
             List<Ingredient> AllIngredient = new List<Ingredient>();
@@ -181,6 +219,15 @@ namespace Chiken_Kitchen
             foreach (var foodIngredient in Storage)
             {
                 Console.WriteLine(foodIngredient.GetName() + " " + foodIngredient.GetCount());
+=======
+        private void SetStartCount(List<Ingredient> allIngredients, List<int> StartValues)
+        {
+            int i = 0;
+            foreach (Ingredient ingredient in allIngredients)
+            {
+                ingredient.Count = StartValues[i];
+                i++;
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
             }
         }
     }

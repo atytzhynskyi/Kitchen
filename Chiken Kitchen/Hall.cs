@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Chiken_Kitchen
 {
-    public class Hall : IHall
+    class Hall : IHall
     {
         List<Customer> AllCustomers = new List<Customer>();
         public Hall()
@@ -53,17 +53,30 @@ namespace Chiken_Kitchen
         }
         public void GiveFood(Kitchen kitchen, Customer customer)
         {
+<<<<<<< HEAD
             foreach (var foodIngredient in kitchen.Storage)
             {
                 if (foodIngredient.GetName() == customer.Order.Name)
                 {
                     if (foodIngredient.GetCount() < customer.Order.Count)
+=======
+            foreach (Ingredient ingredient in menu.AllIngredients)
+            {
+                if (ingredient.Name == customer.Order.Name)
+                {
+                    if (ingredient.Count < customer.Order.Count)
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
                     {
                         Console.WriteLine("We dont have " + customer.Order.Name);
                         return;
                     }
+<<<<<<< HEAD
                     foodIngredient.SetCount(foodIngredient.GetCount() - customer.Order.Count);
                     Console.WriteLine(customer.Name + " get " + foodIngredient.GetName());
+=======
+                    ingredient.Count -= customer.Order.Count;
+                    Console.WriteLine(customer.Name + " get " + ingredient.Name);
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
                     customer.Order = new Food("");
                     return;
                 }
@@ -81,14 +94,15 @@ namespace Chiken_Kitchen
             }
             return allergicIngredients;
         }
-        public Food AskOrder()
+        public Ingredient AskOrder()
         {
+            Ingredient ingredient;
             Console.WriteLine("What you prefer to order?");
             string _Order = Console.ReadLine();
             Console.WriteLine("How many do you want?");
             int orderCount = Convert.ToInt32(Console.ReadLine());
-            Food food = new Food(_Order, orderCount);
-            return food;
+            ingredient = new Ingredient(_Order, orderCount);
+            return ingredient;
         }
         public string AskName()
         {

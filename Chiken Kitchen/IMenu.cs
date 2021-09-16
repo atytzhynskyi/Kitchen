@@ -6,9 +6,14 @@ namespace Chiken_Kitchen
 {
     interface IMenu
     {
+<<<<<<< HEAD
         bool isFoodInMenu(Food food);
         public List<Food> GetFoods();
+=======
+        public List<Ingredient> GetAllIngredients();
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
         public void AddNewFood();
-        void ShowAll();
+        public void AddNewIngredient();
+        public void ShowAllIngredients();
     }
 }

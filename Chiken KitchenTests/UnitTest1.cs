@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Chiken_Kitchen_Tests
+namespace Chiken_KitchenTests
 {
     [TestClass]
     public class UnitTest1

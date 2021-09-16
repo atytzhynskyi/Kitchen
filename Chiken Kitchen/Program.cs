@@ -11,6 +11,7 @@ namespace Chiken_Kitchen
             IHall hall = new Hall();
             IKitchen kitchen = new Kitchen();
 
+<<<<<<< HEAD
             Customer customer = new Customer("Julie Mirage");
             if (hall.isNewCustomer(customer.Name)){
                 customer.Allergies = hall.AskAllergies();
@@ -29,6 +30,26 @@ namespace Chiken_Kitchen
                     else Console.WriteLine("We dont have enough ingredients");
                 }
                 else Console.WriteLine(order.Name + " contains allergic ingredients for " + customer.Name);
+=======
+            Customer customer = new Customer(hall.AskName());
+            if(hall.isNewCustomer(customer.Name))
+                customer.Allergies=hall.AskAllergies();
+            else 
+                customer.Allergies = hall.GetCustomer(customer.Name).Allergies;
+            customer.SetOrder((Menu)menu, hall.AskOrder());
+            if(customer.Order.isAllergic((Menu)menu, customer.Allergies))
+            {
+                Console.WriteLine("This food is alergic to " + customer.Name);
+            }
+            else
+            {
+                if (kitchen.isEnoughIngredients((Menu)menu, customer.Order))
+                {
+                    kitchen.Cook((Menu)menu, customer.Order);
+                    hall.GiveFood((Menu)menu, customer);
+                }
+                else Console.WriteLine("We dont have enough ingredients to cook " + customer.Order.Name);
+>>>>>>> parent of 46e240b... Wednesday. Remove inheritance betveen Food and Ingredient. Add few test for Customer, Kitchen
             }
         }
     }
