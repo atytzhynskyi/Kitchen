@@ -11,6 +11,7 @@ namespace Chiken_Kitchen
             IHall hall = new Hall();
             IKitchen kitchen = new Kitchen();
 
+            
         }
     }
 }

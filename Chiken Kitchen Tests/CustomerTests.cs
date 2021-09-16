@@ -18,15 +18,15 @@ namespace Chiken_Kitchen.Tests
             Ingredient salt = new Ingredient("salt",10);
             Ingredient fish = new Ingredient("fish", 10);
             Ingredient water = new Ingredient("water", 10);
-            List<Ingredient> ingredients = new List<Ingredient> { potato, salt, fish, water};
 
             Food saltPotato = new Food("salt potato", new Ingredient("potato"), new Ingredient("salt"));
             Food fishWithPotato = new Food("Fish with potato", new Ingredient("salt potato"), new Ingredient("fish"));
             Food ice = new Food("ice", new Ingredient("water"));
             Food iceCream = new Food("ice cream", new Ingredient("ice"), new Ingredient("water"));
-            List<Food> foods = new List<Food> { saltPotato, fishWithPotato, ice, iceCream};
 
-            Kitchen kitchen = new Kitchen(ingredients, foods);
+            List<IFoodIngredient> foodIngredients = new List<IFoodIngredient> { potato, salt, fish, water, saltPotato, fishWithPotato, ice, iceCream };
+
+            Kitchen kitchen = new Kitchen(foodIngredients);
 
             Assert.IsFalse(customerSalt.isAllergic(kitchen, new Food("ice cream")), "False positive result");
             Assert.IsTrue(customerSalt.isAllergic(kitchen, new Food("Fish with potato")), "False negative result");

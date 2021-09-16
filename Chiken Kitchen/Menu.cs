@@ -54,5 +54,16 @@ namespace Chiken_Kitchen
                 Console.WriteLine(food.Name);
             }
         }
+        public bool isFoodInMenu(Food food)
+        {
+            foreach(Food foodMenu in Foods)
+            {
+                if(foodMenu.Name == food.Name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

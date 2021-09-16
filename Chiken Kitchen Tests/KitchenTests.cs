@@ -15,26 +15,18 @@ namespace Chiken_Kitchen.Tests
             Ingredient water = new Ingredient("water", 10);
             Food ice = new Food("ice", new Ingredient("water"));
             Food iceCream = new Food("ice cream", new Ingredient("water"), new Ingredient("ice"));
-            List<Ingredient> ingredients = new List<Ingredient> { water };
-            List<Food> foods = new List<Food> { ice, iceCream };
-            Kitchen kitchen = new Kitchen(ingredients, foods);
+            List<IFoodIngredient> storage = new List<IFoodIngredient> { ice, iceCream, water };
+            Kitchen kitchen = new Kitchen(storage);
             kitchen.Cook(new Food("ice cream"));
 
             Ingredient waterTest = new Ingredient("water", 8);
             Food iceTest = new Food("ice", 0, water);
             Food iceCreamTest = new Food("ice cream", 1, water, new Ingredient("ice"));
+            List<IFoodIngredient> test = new List<IFoodIngredient> {ice, iceCream, water };
 
-            if (kitchen.BaseIngredients[0].Count != waterTest.Count){
-                Assert.Fail("ingredients count doesnt correct");
-            }
-            if (kitchen.Foods[0].Count != iceTest.Count)
-            {
-                Assert.Fail("Foods count doesnt correct");
-            }
-            if (kitchen.Foods[1].Count != iceCreamTest.Count)
-            {
-                Assert.Fail("Final food count doesnt correct");
-            }
+            foreach(var FoodIngredient in storage)
+                foreach (var testFoodIngredient in test)
+                    Assert.IsFalse(FoodIngredient.GetCount() != testFoodIngredient.GetCount(), "Wrong food or ingredient count");
         }
 
         [TestMethod()]
@@ -43,9 +35,8 @@ namespace Chiken_Kitchen.Tests
             Ingredient water = new Ingredient("water", 1);
             Food ice = new Food("ice", new Ingredient("water"));
             Food iceCream = new Food("ice cream", new Ingredient("water"), new Ingredient("ice"));
-            List<Ingredient> ingredients = new List<Ingredient> { water };
-            List<Food> foods = new List<Food> { ice, iceCream };
-            Kitchen kitchen = new Kitchen(ingredients, foods);
+            List<IFoodIngredient> storage = new List<IFoodIngredient> { ice, iceCream, water };
+            Kitchen kitchen = new Kitchen(storage);
             Assert.IsFalse(kitchen.isEnoughIngredients(new Food("ice cream")), "the number of ingredients is incorrectly checked");
         }
     }

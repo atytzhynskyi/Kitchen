@@ -18,7 +18,7 @@ namespace Chiken_Kitchen
         {
             Name = _Name;
         }
-        public void SetOrder(Menu menu, Ingredient _Order)
+        public void SetOrder(Menu menu, Food _Order)
         {
             foreach (Food food in menu.Foods)
             {
@@ -31,7 +31,7 @@ namespace Chiken_Kitchen
             }
             Console.WriteLine("Order doesnt exist in menu");
         }
-        public void SetOrder(Menu menu, Ingredient _Order, int OrderCount)
+        public void SetOrder(Menu menu, Food _Order, int OrderCount)
         {
             foreach (Food food in menu.Foods)
             {
@@ -46,32 +46,35 @@ namespace Chiken_Kitchen
         }
         public bool isAllergic(Kitchen kitchen, Food food)
         {
-            foreach (Food _food in kitchen.Foods)
+            foreach (var foodIngredient in kitchen.Storage)
             {
-                if (_food.Name == food.Name)
+                if (food.Name == foodIngredient.GetName() && foodIngredient is Food)
                 {
-                    food = _food;
+                    food.Recipe = foodIngredient.GetRecipe();
                 }
             }
-            foreach (Ingredient ingredient in food.Recipe)
+            foreach (var ingredient in food.GetRecipe())
             {
-                foreach (Ingredient allergy in Allergies)
+                foreach (var foodIngredient in kitchen.Storage)
                 {
-                    if (allergy.Name == ingredient.Name)
+                    if (ingredient.Name == foodIngredient.GetName())
                     {
-                        return true;
-                    }
-                }
-            }
-            foreach (Food _food in kitchen.Foods)
-            {
-                foreach (Ingredient ingredient in food.Recipe)
-                {
-                    if (_food.Name == ingredient.Name)
-                    {
-                        if (isAllergic(kitchen, _food))
+                        if (foodIngredient is Food)
                         {
-                            return true;
+                            if (isAllergic(kitchen, (Food)foodIngredient))
+                            {
+                                return true;
+                            }
+                        }
+                        if(foodIngredient is Ingredient)
+                        {
+                            foreach (Ingredient ingredientAllergic in Allergies)
+                            {
+                                if (ingredient.Name == ingredientAllergic.Name)
+                                {
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
