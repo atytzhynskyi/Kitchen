@@ -9,8 +9,16 @@ namespace Chiken_Kitchen
         {
             IMenu menu = new Menu();
             IHall hall = new Hall();
-            IKitchen kitchen = new Kitchen();
+            //IKitchen kitchen = new Kitchen();
 
+            Ingredient water = new Ingredient("water", 1);
+            Food ice = new Food("ice", 0, new Ingredient("water", 1));
+            Food iceCream = new Food("ice cream", 0, new Ingredient("water", 1), new Ingredient("ice", 1));
+            List<Ingredient> ingredients = new List<Ingredient> { water };
+            List<Food> foods = new List<Food> { ice, iceCream };
+            Kitchen kitchen = new Kitchen(ingredients, foods);
+            kitchen.isEnoughIngredients(new Food("ice cream"));
+            kitchen.Cook(new Food("ice cream"));
         }
     }
 }

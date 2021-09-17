@@ -5,7 +5,7 @@ namespace Chiken_Kitchen
     interface IKitchen
     {
         Food Cook(Food order);
-        bool isEnoughIngredients(List<Ingredient> Recipe);
+        bool isEnoughIngredients(Food food);
         void AddNewIngredient();
         void ShowAll();
     }

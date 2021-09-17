@@ -60,7 +60,7 @@ namespace Chiken_Kitchen
                     order.Recipe = DeepCopyRecipe(food.Recipe);
             }
 
-            if (!isEnoughIngredients(order.Recipe))
+            if (!isEnoughIngredients(order))
             {
                 Console.WriteLine("We dont have enough ingredients");
                 return order;
@@ -79,17 +79,28 @@ namespace Chiken_Kitchen
             order.Count++;
             return order;
         }
-        public bool isEnoughIngredients(List<Ingredient> Recipe)
+        public bool isEnoughIngredients(Food food)
         {
-            List<Ingredient> CopyRecipe = DeepCopyRecipe(Recipe);
+            List<Ingredient> CopyBaseIngredients = DeepCopyRecipe(BaseIngredients);
+            List<Ingredient> CopyRecipe = new List<Ingredient>();
+            foreach (Food recipe in Recipes)
+            {
+                if (food.Name == recipe.Name)
+                    CopyRecipe = DeepCopyRecipe(recipe.Recipe);
+            }
             CopyRecipe = GetBaseIngredientRecipe(CopyRecipe);
+
             foreach (Ingredient ingredientRecipe in CopyRecipe)
             {
-                foreach (Ingredient ingredient in BaseIngredients)
+                foreach (Ingredient ingredient in CopyBaseIngredients)
                 {
-                    if (ingredient.Name == ingredientRecipe.Name && ingredient.Count < ingredientRecipe.Count)
+                    if (ingredient.Name == ingredientRecipe.Name)
                     {
-                        return false;
+                        ingredient.Count -= ingredientRecipe.Count;
+                        if (ingredient.Count < 0)
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -98,31 +109,23 @@ namespace Chiken_Kitchen
         private List<Ingredient> GetBaseIngredientRecipe(List<Ingredient> Recipe)
         {
             List<Ingredient> fullRecipe = new List<Ingredient>();
-            foreach (Ingredient ingredient in Recipe)
+            List<Ingredient> copyRecipe = DeepCopyRecipe(Recipe);
+            foreach (Ingredient ingredient in copyRecipe)
             {
-                bool isFood = false;
                 foreach (Food food in Recipes)
                 {
                     if (food.Name == ingredient.Name)
                     {
                         fullRecipe.AddRange(GetBaseIngredientRecipe(food.Recipe));
-                        isFood = true;
+                        break;
                     }
                 }
-                if (!isFood)
+                foreach (Ingredient baseIngredient in BaseIngredients)
                 {
-                    bool isFound = false;
-                    foreach(Ingredient ingredientFullRecipe in fullRecipe)
+                    if (baseIngredient.Name == ingredient.Name)
                     {
-                        if (ingredientFullRecipe.Name == ingredient.Name)
-                        {
-                            ingredientFullRecipe.Count += ingredient.Count;
-                            isFound = true;
-                            break;
-                        }
+                        fullRecipe.Add(ingredient);
                     }
-                    if (isFound) continue;
-                    fullRecipe.Add(ingredient);
                 }
             }
             return fullRecipe;
