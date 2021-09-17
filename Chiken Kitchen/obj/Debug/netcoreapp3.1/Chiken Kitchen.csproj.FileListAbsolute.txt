@@ -1,0 +1,27 @@
+D:\Нова папка\Kitchen-master\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.exe
+D:\Нова папка\Kitchen-master\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.deps.json
+D:\Нова папка\Kitchen-master\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.runtimeconfig.json
+D:\Нова папка\Kitchen-master\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.runtimeconfig.dev.json
+D:\Нова папка\Kitchen-master\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.dll
+D:\Нова папка\Kitchen-master\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.pdb
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.csprojAssemblyReference.cache
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.AssemblyInfoInputs.cache
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.AssemblyInfo.cs
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.csproj.CoreCompileInputs.cache
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.dll
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.pdb
+D:\Нова папка\Kitchen-master\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.genruntimeconfig.cache
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.exe
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.deps.json
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.runtimeconfig.json
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.runtimeconfig.dev.json
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.dll
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\bin\Debug\netcoreapp3.1\Chiken Kitchen.pdb
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.csproj.AssemblyReference.cache
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.AssemblyInfoInputs.cache
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.AssemblyInfo.cs
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.csproj.CoreCompileInputs.cache
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.dll
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.pdb
+C:\Users\atytzhynskyi\source\repos\Kitchen\Chiken Kitchen\obj\Debug\netcoreapp3.1\Chiken Kitchen.genruntimeconfig.cache
